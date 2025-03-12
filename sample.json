@@ -1,0 +1,427 @@
+{
+	"Workbook": {
+		"RowCount": 17,
+		"ColumnCount": 10,
+		"Columns": {
+			"A": { "Width": 65.25 },
+			"B": { "Width": 102 },
+			"C": { "Width": 49.5 },
+			"D": { "Width": 58.5 },
+			"E": { "Width": -1 },
+			"F": { "Width": 68.25 },
+			"G": { "Width": 62.25 },
+			"H": { "Width": 54 },
+			"I": { "Width": 61.5 },
+			"J": { "Width": 157.5 }
+		},
+		"Rows": {
+			"1": { "Height": 19.5 },
+			"7": { "Height": 13.5 },
+			"8": { "Height": 16.5 },
+			"10": { "Height": 14.25 }
+		},
+		"Cells": {
+			"A1": {
+				"Value": "{Company.Logo}",
+				"RowSpan": 7,
+				"ColSpan": 2,
+				"Style": "S36"
+			},
+			"B1": { "Style": "S37" },
+			"C1": {
+				"Value": "             PAYMENT APPROVAL VOUCHER",
+				"ColSpan": 7,
+				"Style": "S39"
+			},
+			"D1": { "Style": "S39" },
+			"E1": { "Style": "S39" },
+			"F1": { "Style": "S39" },
+			"G1": { "Style": "S39" },
+			"H1": { "Style": "S39" },
+			"I1": { "Style": "S39" },
+			"J1": { "Style": "S1" },
+			"A2": { "Style": "S37" },
+			"B2": { "Style": "S37" },
+			"D2": { "Style": "S3" },
+			"E2": { "Style": "S3" },
+			"A3": { "Style": "S37" },
+			"B3": { "Style": "S37" },
+			"D3": { "Style": "S4" },
+			"H3": { "Style": "S1" },
+			"I3": {
+				"Value": "Donor:",
+				"Style": "S5"
+			},
+			"J3": {
+				"Value": "{Document.Donor}",
+				"Style": "S6"
+			},
+			"A4": { "Style": "S37" },
+			"B4": { "Style": "S37" },
+			"F4": {
+				"Value": "Date:",
+				"Style": "S7"
+			},
+			"G4": {
+				"Value": "{Document.Date}",
+				"Style": "S8"
+			},
+			"H4": { "Style": "S9" },
+			"I4": {
+				"Value": "Agreement:",
+				"Style": "S5"
+			},
+			"J4": {
+				"Value": "{Document.Agreement}",
+				"Style": "S10"
+			},
+			"A5": { "Style": "S37" },
+			"B5": { "Style": "S37" },
+			"G5": { "Style": "S11" },
+			"H5": { "Style": "S12" },
+			"I5": {
+				"Value": "IBAN #:",
+				"Style": "S7"
+			},
+			"J5": {
+				"Value": "{Document.IBAN}",
+				"Style": "S13"
+			},
+			"A6": { "Style": "S37" },
+			"B6": { "Style": "S37" },
+			"G6": { "Style": "S14" },
+			"H6": { "Style": "S15" },
+			"I6": { "Style": "S15" },
+			"A7": { "Style": "S38" },
+			"B7": { "Style": "S38" },
+			"C7": { "Style": "S16" },
+			"D7": { "Style": "S16" },
+			"E7": { "Style": "S16" },
+			"F7": { "Style": "S16" },
+			"G7": { "Style": "S17" },
+			"H7": { "Style": "S17" },
+			"I7": { "Style": "S17" },
+			"J7": { "Style": "S16" },
+			"A8": {
+				"Value": "No",
+				"Style": "S18"
+			},
+			"B8": {
+				"Value": "Vendor",
+				"Style": "S19"
+			},
+			"C8": {
+				"Value": "Based on",
+				"Style": "S19"
+			},
+			"D8": {
+				"Value": "Based date",
+				"Style": "S19"
+			},
+			"E8": {
+				"Value": "Purpose of Payment",
+				"Style": "S19"
+			},
+			"F8": {
+				"Value": "Amount UAH",
+				"Style": "S19"
+			},
+			"G8": {
+				"Value": "Situation",
+				"Style": "S20"
+			},
+			"H8": {
+				"Value": "Output",
+				"Style": "S21"
+			},
+			"I8": {
+				"Value": "Account",
+				"Style": "S21"
+			},
+			"J8": {
+				"Value": "Account Description",
+				"Style": "S22"
+			},
+			"A9": { "Style": "S23" },
+			"B9": { "Style": "S24" },
+			"C9": { "Style": "S24" },
+			"D9": { "Style": "S24" },
+			"E9": {
+				"Value": "TOTAL",
+				"Style": "S24"
+			},
+			"F9": {
+				"Value": "{Document.Total}",
+				"Style": "S25"
+			},
+			"G9": { "Style": "S26" },
+			"H9": { "Style": "S23" },
+			"I9": { "Style": "S27" },
+			"J9": { "Style": "S23" },
+			"A10": {
+				"Value": "{PAVNumber}",
+				"Style": "S28"
+			},
+			"B10": {
+				"Value": "{Vendor}",
+				"Style": "S29"
+			},
+			"C10": {
+				"Value": "{BasedOn}",
+				"Style": "S30"
+			},
+			"D10": {
+				"Value": "{BasedDate}",
+				"Style": "S31"
+			},
+			"E10": {
+				"Value": "{Purpose}",
+				"Style": "S32"
+			},
+			"F10": {
+				"Value": "{SumUAH}",
+				"Style": "S33"
+			},
+			"G10": {
+				"Value": "{Attr3}",
+				"Style": "S34"
+			},
+			"H10": {
+				"Value": "{Attr2}",
+				"Style": "S34"
+			},
+			"I10": {
+				"Value": "{Attr4}",
+				"Style": "S28"
+			},
+			"J10": {
+				"Value": "{Attr1}",
+				"Style": "S34"
+			},
+			"A13": {
+				"Value": "Approved by Finance Manager",
+				"ColSpan": 2,
+				"Style": "S35"
+			},
+			"B13": { "Style": "S35" },
+			"D13": {
+				"Value": "{Document.FinManager}",
+				"ColSpan": 2,
+				"Style": "S35"
+			},
+			"E13": { "Style": "S35" },
+			"A15": {
+				"Value": "Aproved by Project Manager",
+				"ColSpan": 2,
+				"Style": "S40"
+			},
+			"B15": { "Style": "S40" },
+			"D15": {
+				"Value": "{Document.Manager}",
+				"ColSpan": 2,
+				"Style": "S35"
+			},
+			"E15": { "Style": "S35" },
+			"A17": {
+				"Value": "Aproved by President",
+				"ColSpan": 2,
+				"Style": "S35"
+			},
+			"B17": { "Style": "S35" },
+			"D17": {
+				"Value": "{President}",
+				"ColSpan": 2,
+				"Style": "S35"
+			},
+			"E17": { "Style": "S35" }
+		},
+		"Ranges": [
+			{
+				"Value": "{Document.Approvals}",
+				"Start": 17,
+				"End": 17
+			},
+			{
+				"Value": "{Document.Rows}",
+				"Start": 10,
+				"End": 10
+			}
+		],
+		"Styles": {
+			"S1": { "Bold": true },
+			"S3": { "Bold": true },
+			"S4": {
+				"Align": "Center",
+				"Bold": true
+			},
+			"S5": {
+				"Align": "Right",
+				"VAlign": "Middle",
+				"Border": "0.2"
+			},
+			"S6": {
+				"Bold": true,
+				"Border": "0.2"
+			},
+			"S7": {
+				"Align": "Right",
+				"Border": "0.2"
+			},
+			"S8": {
+				"Align": "Center",
+				"Bold": true,
+				"Border": "0.2",
+				"Format": "dd/MM/yyyy"
+			},
+			"S9": {
+				"Align": "Right",
+				"Bold": true,
+				"Border": "0,0.2"
+			},
+			"S10": {
+				"VAlign": "Middle",
+				"Bold": true,
+				"Border": "0.2"
+			},
+			"S11": {
+				"Align": "Right",
+				"Border": "0.2,0,0,0"
+			},
+			"S12": {
+				"Align": "Right",
+				"Border": "0,0.2,0,0"
+			},
+			"S13": {
+				"Bold": true,
+				"Border": "0.2"
+			},
+			"S14": { "Align": "Right" },
+			"S15": { "Align": "Right" },
+			"S16": { "Border": "0,0,1,0" },
+			"S17": {
+				"Align": "Center",
+				"Bold": true,
+				"Border": "0,0,1,0"
+			},
+			"S18": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Bold": true,
+				"Italic": true,
+				"Border": "1,0.2,1,1"
+			},
+			"S19": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Bold": true,
+				"Italic": true,
+				"Border": "1,0.2"
+			},
+			"S20": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Bold": true,
+				"Italic": true,
+				"Border": "1,0.2,1,0"
+			},
+			"S21": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Bold": true,
+				"Italic": true,
+				"Border": "1,0.2"
+			},
+			"S22": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Bold": true,
+				"Italic": true,
+				"Border": "1,1,1,0.2"
+			},
+			"S23": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Bold": true,
+				"Border": "0,0.2"
+			},
+			"S24": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Bold": true,
+				"Border": "0,0.2"
+			},
+			"S25": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Bold": true,
+				"Border": "0,0.2,0,0",
+				"Format": "#,##0.00"
+			},
+			"S26": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Bold": true,
+				"Border": "0,0.2,0,0"
+			},
+			"S27": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Border": "0,0.2"
+			},
+			"S28": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Border": "0.2"
+			},
+			"S29": {
+				"VAlign": "Middle",
+				"Border": "0.2",
+				"Format": "0.00"
+			},
+			"S30": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Border": "0.2",
+				"Format": "0;\\-0;;@"
+			},
+			"S31": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Border": "0.2",
+				"Format": "dd/MM/yyyy"
+			},
+			"S32": {
+				"VAlign": "Middle",
+				"Border": "0.2"
+			},
+			"S33": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Border": "0.2",
+				"Format": "#,##0.00"
+			},
+			"S34": {
+				"Align": "Center",
+				"VAlign": "Middle",
+				"Border": "0.2"
+			},
+			"S35": { "Border": "0,0,0.2,0" },
+			"S36": { "VAlign": "Top" },
+			"S37": { "VAlign": "Top" },
+			"S38": {
+				"VAlign": "Top",
+				"Border": "0,0,1,0"
+			},
+			"S39": {
+				"FontSize": 12,
+				"Align": "Center",
+				"Bold": true
+			},
+			"S40": { "Border": "0,0,0.2,0" }
+		}
+	},
+	"FontFamily": "Calibri",
+	"Orientation": "Landscape",
+	"FontSize": 10,
+	"Margin": "54,18"
+}

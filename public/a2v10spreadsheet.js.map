@@ -1,0 +1,1 @@
+{"version":3,"file":"a2v10spreadsheet.js","sources":["../../src/main.js"],"sourcesContent":["\r\nimport \"vue\";\r\n\r\nVue.component('a2v10_spreadsheet', {\r\n\ttemplate: '<div>a2v10_spreadsheet</div>'\t\r\n});"],"names":[],"mappings":";;;;;CAGA,GAAG,CAAC,SAAS,CAAC,mBAAmB,EAAE;CACnC,CAAC,QAAQ,EAAE,8BAA8B;CACzC,CAAC,CAAC;;;;;;"}

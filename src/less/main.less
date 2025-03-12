@@ -1,0 +1,191 @@
+@import "variables.less";
+
+@tb-heigth: 33px;
+
+body {
+	background-color:aliceblue;
+	font-family:Verdana;
+	font-size:13px;
+	.ss {
+		background-color:beige;
+	}
+}
+
+.ss-container {
+	width: 75vw;
+	height: 75vh;
+	position: relative;
+	margin: 20px;
+
+	&.editable {
+		.ss-body, .a2-sb.vert {
+			top: @tb-heigth;
+		}
+	}
+
+	.ss-toolbar {
+		background-color:antiquewhite;
+		position:absolute;
+		left:0;
+		right:0;
+		top:0;
+		height:@tb-heigth;
+		display:flex;
+	}
+}
+
+.ss-body {
+	position: absolute;
+	left: 0;
+	top: 0;
+	right: 18px;
+	bottom: 18px;
+	background-color: white;
+	overflow: hidden;
+	user-select: none;
+	outline: none;
+
+	.r-top {
+		width: 33px;
+		height: 24px;
+		box-sizing: border-box;
+		background-color: @header-bg-color;
+		border: 1px solid @border-color;
+	}
+
+	.thc, .thr {
+		position: absolute;
+		box-sizing: border-box;
+		border: 1px solid @border-color;
+		background-color: @header-bg-color;
+		cursor: pointer;
+	}
+
+	.vline {
+		position: absolute;
+		top: 24px;
+		bottom: 0;
+		border-left: 1px solid @grid-color;
+
+		&.freeze {
+			border-color: #555;
+		}
+	}
+
+	.hline {
+		position: absolute;
+		left: 33px;
+		right: 0;
+		border-top: 1px solid @grid-color;
+
+		&.freeze {
+			border-color: #555;
+		}
+	}
+
+	.cell {
+		position: absolute;
+		box-sizing: border-box;
+		padding: 4px 4px;
+		white-space: nowrap;
+		overflow: visible;
+		line-height: 1;
+		cursor: default;
+		display: inline-flex;
+
+		&.bold {
+			font-weight: bold;
+		}
+
+		&.italic{
+			font-style:italic;
+		}
+	}
+
+	.canvas {
+		.thc {
+			height: 24px;
+			line-height: 20px;
+			top: 0;
+			border-right-width: 0;
+			text-align: center;
+
+			&.last {
+				border-right-width: 1px;
+			}
+		}
+
+		.thr {
+			width: 33px;
+			line-height: 20px;
+			left: 0;
+			border-bottom-width: 0;
+			text-align: center;
+
+			&.last {
+				border-bottom-width: 1px;
+			}
+		}
+
+		.h-resize-line {
+			position: absolute;
+			top: 0;
+			border-left: 1px solid black;
+			height: 100%;
+			z-index: 5;
+		}
+
+		.v-resize-line {
+			position: absolute;
+			left: 0;
+			border-top: 1px solid black;
+			width: 100%;
+			z-index: 5;
+		}
+
+		.h-size {
+			position: absolute;
+			background-color: transparent;
+			width: 5px;
+			height: 100%;
+			top: 0;
+			right: 0;
+			cursor: w-resize;
+		}
+
+		.v-size {
+			position: absolute;
+			background-color: transparent;
+			height: 5px;
+			width: 100%;
+			bottom: 0;
+			left: 0;
+			cursor: s-resize;
+		}
+	}
+
+	.sel {
+		position: absolute;
+		box-sizing: border-box;
+		border: 1px solid black;
+		outline: .5px solid black;
+
+		&.multiply {
+			background-color: rgba(59, 197, 234, 0.2);
+		}
+	}
+
+	.cell-edit {
+		position: absolute;
+		box-sizing: border-box;
+		padding: 3px;
+		line-height: 1;
+		outline: none;
+		border: none;
+		background-color: lemonchiffon;
+		min-width: fit-content;
+		min-height: fit-content;
+	}
+}
+
+@import "scrollbar.less";

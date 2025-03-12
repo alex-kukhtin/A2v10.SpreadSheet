@@ -1,0 +1,74 @@
+@import "variables.less";
+
+.a2-sb {
+	box-sizing: border-box;
+	background-color: #f1f1f1;
+	position: absolute;
+	overflow: hidden;
+	user-select: none;
+	display: flex;
+
+	&.vert {
+		top: 0;
+		bottom: 18px;
+		right: 0;
+		width: 18px;
+		flex-direction: column;
+	}
+
+	&.horz {
+		left: 0;
+		bottom: 0;
+		right: 18px;
+		height: 18px;
+		flex-direction: row;
+	}
+
+	button {
+		padding: 0;
+		border: none;
+		width: 18px;
+		height: 18px;
+		background-color: #f1f1f1;
+		border-radius: 1px;
+		font-size: 13px;
+
+		&:disabled {
+			pointer-events: none;
+		}
+
+		&:hover {
+			background-color: #c1c1c1;
+		}
+
+		&:active {
+			background-color: #777;
+			color: white;
+		}
+	}
+
+	.sb-body {
+		flex-grow: 1;
+		position: relative;
+	}
+
+	.thumb {
+		position: absolute;
+		left: 2px;
+		right: 1px;
+		background-color: #c1c1c1;
+		border-radius: 2px;
+		z-index: 3;
+
+		&.vert {
+			left: 2px;
+			right: 1px;
+		}
+
+		&.horz {
+			top: 2px;
+			bottom: 1px;
+		}
+	}
+}
+
