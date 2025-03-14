@@ -1,8 +1,8 @@
 ﻿
 const toolbarTemplate = `
 <div class="ss-toolbar">TOOLBAR
-	<button @click="forAll('Bold')">B</button>
-	<button @click="forAll('Italic')">I</button>
+	<button @click="toggleBool('Bold')" :class="{checked: isChecked('Bold')}">B</button>
+	<button @click="toggleBool('Italic')" :class="{checked: isChecked('Italic')}">I</button>
 </div>
 `;
 export default {
@@ -10,8 +10,13 @@ export default {
 	props: {
 	},
 	methods: {
-		forAll(prop) {
+		isChecked(prop) {
+			return this.$parent.$getSelProp(prop);
+		},
+		toggleBool(prop) {
 			let sheet = this.$parent.sheet;
+			this.$parent.$setSelProp(prop, !this.isChecked(prop));
+			return;
 			let sel = sheet.$selection;
 			if (!sel.length) return;
 			let set = true;

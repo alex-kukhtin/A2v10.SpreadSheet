@@ -22,24 +22,26 @@ export default {
 				const cellRef = `${colRef}${r + 1}`;
 				let cell = sh.Cells[cellRef];
 				if (cell) {
+					let nw = cw;
+					let nh = rh;
+					let cellCls = 'cell' + p.cellClass(cell);
 					if (cell.ColSpan > 1 || cell.RowSpan > 1) {
-						let nw = cw;
-						let nh = rh;
 						for (let sc = 1; sc < cell.ColSpan; sc++)
 							nw += p.colWidth(sc + c);
 						for (let sr = 1; sr < cell.RowSpan; sr++)
 							nh += p.rowHeight(sr + r);
+						cellCls += ' span';
 						elems.push(h('div', {
 							class: 'cell-ph',
-							style: { left: toPx(x + 1), top: toPx(y + 1), width: toPx(nw - 1), height: toPx(nh - 1) }
+							style: { left: toPx(x + 1), top: toPx(y + 1), width: toPx(nw - 1), height: toPx(nh - 1) },
 						}));
 					}
-					let cellCls = 'cell' + p.cellClass(cell);
 					elems.push(h('div', {
 						class: cellCls,
-						style: { left: toPx(x), top: toPx(y), width: toPx(cw + 1), height: toPx(rh + 1) }
+						style: { left: toPx(x), top: toPx(y), width: toPx(nw + 1), height: toPx(nh + 1) },
+						on: { pointerdown: (ev) => this.clickPh(c, r, cell, ev) }
 					},
-						cell.Content));
+					cell.Content));
 				}
 				x += cw;
 				if (x >= maxWidth)
@@ -50,5 +52,12 @@ export default {
 				break;
 		}
 		return h('div', { class: 'cells' }, elems);
+	},
+	methods: {
+		clickPh(c, r, cell, ev) {
+			ev.preventDefault();
+			ev.stopPropagation();
+			this.$parent.$selectCell(c, r, cell);
+		}
 	}
 }

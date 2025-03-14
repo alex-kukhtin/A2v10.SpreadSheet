@@ -14,7 +14,7 @@ export default {
 		let cellRef = `${toColRef(r.c)}${r.r + 1}`;
 		let cell = p.sheet.Cells[cellRef];
 		return h('div', {
-			class: 'input cell-edit no-me' + p.cellClass(cell),
+			class: 'input cell cell-edit no-me' + p.cellClass(cell),
 			style: { left: toPx(r.l + 1), top: toPx(r.t + 1), width: toPx(r.w - 1), height: toPx(r.h - 1) },
 			domProps: { contentEditable: true },
 			on: { blur: this.blur }

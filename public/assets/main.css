@@ -25,6 +25,13 @@ body .ss {
   height: 33px;
   display: flex;
 }
+.ss-container .ss-toolbar button {
+  width: 24px;
+  height: 24px;
+}
+.ss-container .ss-toolbar button.checked {
+  background-color: aquamarine;
+}
 .ss-body {
   position: absolute;
   left: 0;
@@ -69,21 +76,38 @@ body .ss {
 .ss-body .hline.freeze {
   border-color: #555;
 }
+.ss-body .cell-ph {
+  background-color: white;
+  position: absolute;
+  pointer-events: all;
+}
 .ss-body .cell {
   position: absolute;
   box-sizing: border-box;
-  padding: 4px 4px;
+  padding: 4px;
   white-space: nowrap;
   overflow: visible;
   line-height: 1;
   cursor: default;
   display: inline-flex;
+  border: 1px solid transparent;
+}
+.ss-body .cell.cell-edit {
+  line-height: 1;
+  outline: none;
+  padding: 3px;
+  background-color: lemonchiffon;
+  min-width: fit-content;
+  min-height: fit-content;
 }
 .ss-body .cell.bold {
   font-weight: bold;
 }
 .ss-body .cell.italic {
   font-style: italic;
+}
+.ss-body .cell.text-center {
+  justify-content: center;
 }
 .ss-body .canvas .thc {
   height: 24px;
@@ -145,17 +169,6 @@ body .ss {
 }
 .ss-body .sel.multiply {
   background-color: rgba(59, 197, 234, 0.2);
-}
-.ss-body .cell-edit {
-  position: absolute;
-  box-sizing: border-box;
-  padding: 3px;
-  line-height: 1;
-  outline: none;
-  border: none;
-  background-color: lemonchiffon;
-  min-width: fit-content;
-  min-height: fit-content;
 }
 .a2-sb {
   box-sizing: border-box;

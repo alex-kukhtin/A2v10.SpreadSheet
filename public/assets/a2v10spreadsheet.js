@@ -4,10 +4,10 @@
 })((function () { 'use strict';
 
 	const toColRef = (n) => n >= 26 ? String.fromCharCode(Math.floor(n / 26) + 64) + String.fromCharCode(n % 26 + 65) : String.fromCharCode(n + 65);
-	const toPx$1 = (n) => n + 'px';
+	const toPx = (n) => n + 'px';
 
 	const rowHeaderWidth = 32;
-	const columnHeaderHeigth$1 = 23; // column header height - 1
+	const columnHeaderHeigth = 23; // column header height - 1
 
 	Vue.component('a2-scroll-bar', {
 		template: `
@@ -62,9 +62,9 @@
 			},
 			thumbStyle() {
 				if (this.horz)
-					return { left: toPx$1(this.thumbPos), width: toPx$1(this.thumbSize) };
+					return { left: toPx(this.thumbPos), width: toPx(this.thumbSize) };
 				else
-					return { top: toPx$1(this.thumbPos), height: toPx$1(this.thumbSize) };
+					return { top: toPx(this.thumbPos), height: toPx(this.thumbSize) };
 			},
 			decDisabled() {
 				return this.pos <= this.min;
@@ -227,12 +227,12 @@
 					let cls = 'vline';
 					if (c == sh.Fixed.Columns - 1)
 						cls += ' freeze';
-					elems.push(h('div', { class: cls, style: { left: toPx$1(x), height: toPx$1(maxPos.bottom) } }));
+					elems.push(h('div', { class: cls, style: { left: toPx(x), height: toPx(maxPos.bottom) } }));
 				}
 			}
 
 			function hLines() {
-				let y = columnHeaderHeigth$1;
+				let y = columnHeaderHeigth;
 				for (const r of parent.renderedRows()) {
 					let rh = parent.rowHeight(r);
 					y += rh;
@@ -241,7 +241,7 @@
 					let cls = 'hline';
 					if (r === sh.Fixed.Rows - 1)
 						cls += ' freeze';
-					elems.push(h('div', { class: cls, style: { top: toPx$1(y), width: toPx$1(maxPos.right) } }));
+					elems.push(h('div', { class: cls, style: { top: toPx(y), width: toPx(maxPos.right) } }));
 				}
 			}
 
@@ -257,7 +257,7 @@
 						cls += ' last';
 						cw += 1;
 					}
-					elems.push(h('div', { class: cls, style: { width: toPx$1(cw), left: toPx$1(x) } }, [colRef,
+					elems.push(h('div', { class: cls, style: { width: toPx(cw), left: toPx(x) } }, [colRef,
 						h('div', {
 							class: 'h-size no-me',
 							on: { pointerdown: self.hMouseDown, pointerup: self.hMouseUp, pointermove: self.hMouseMove }
@@ -270,7 +270,7 @@
 			}
 
 			function leftHeader() {
-				let y = columnHeaderHeigth$1;
+				let y = columnHeaderHeigth;
 				for (const r of parent.renderedRows()) {
 					let rh = parent.rowHeight(r);
 					let cls = 'thr';
@@ -280,7 +280,7 @@
 						cls += ' last';
 						rh += 1;
 					}
-					elems.push(h('div', { class: cls, style: { height: toPx$1(rh), top: toPx$1(y) } }, ['' + (r + 1),
+					elems.push(h('div', { class: cls, style: { height: toPx(rh), top: toPx(y) } }, ['' + (r + 1),
 					h('div', {
 						class: 'v-size no-me',
 						on: { pointerdown: self.vMouseDown, pointerup: self.vMouseUp, pointermove: self.vMouseMove }
@@ -290,7 +290,7 @@
 						break;
 					}
 				}
-				maxPos.bottom = y - columnHeaderHeigth$1 - 1;
+				maxPos.bottom = y - columnHeaderHeigth - 1;
 			}
 
 			if (parent.headers) {
@@ -308,9 +308,9 @@
 
 			if (this.rItem >= 0) {
 				if (this.rType == 'C')
-					elems.push(h('div', { class: 'h-resize-line', style: { left: toPx$1(this.rPt) } }));
+					elems.push(h('div', { class: 'h-resize-line', style: { left: toPx(this.rPt) } }));
 				else
-					elems.push(h('div', { class: 'v-resize-line', style: { top: toPx$1(this.rPt) } }));
+					elems.push(h('div', { class: 'v-resize-line', style: { top: toPx(this.rPt) } }));
 			}
 
 
@@ -318,7 +318,7 @@
 		}
 	};
 
-	var spreadSheetCell = {
+	var spreadSheetCells = {
 		render(h) {
 			let p = this.$parent;
 			let sh = p.sheet;
@@ -339,24 +339,26 @@
 					const cellRef = `${colRef}${r + 1}`;
 					let cell = sh.Cells[cellRef];
 					if (cell) {
+						let nw = cw;
+						let nh = rh;
+						let cellCls = 'cell' + p.cellClass(cell);
 						if (cell.ColSpan > 1 || cell.RowSpan > 1) {
-							let nw = cw;
-							let nh = rh;
 							for (let sc = 1; sc < cell.ColSpan; sc++)
 								nw += p.colWidth(sc + c);
 							for (let sr = 1; sr < cell.RowSpan; sr++)
 								nh += p.rowHeight(sr + r);
+							cellCls += ' span';
 							elems.push(h('div', {
 								class: 'cell-ph',
-								style: { left: toPx(x + 1), top: toPx(y + 1), width: toPx(nw - 1), height: toPx(nh - 1) }
+								style: { left: toPx(x + 1), top: toPx(y + 1), width: toPx(nw - 1), height: toPx(nh - 1) },
 							}));
 						}
-						let cellCls = 'cell' + p.cellClass(cell);
 						elems.push(h('div', {
 							class: cellCls,
-							style: { left: toPx(x), top: toPx(y), width: toPx(cw + 1), height: toPx(rh + 1) }
+							style: { left: toPx(x), top: toPx(y), width: toPx(nw + 1), height: toPx(nh + 1) },
+							on: { pointerdown: (ev) => this.clickPh(c, r, cell, ev) }
 						},
-							cell.Content));
+						cell.Content));
 					}
 					x += cw;
 					if (x >= maxWidth)
@@ -367,58 +369,13 @@
 					break;
 			}
 			return h('div', { class: 'cells' }, elems);
-		}
-	};
-
-	var spreadSheetCells = {
-		render(h) {
-			let p = this.$parent;
-			let sh = p.sheet;
-			let cont = p.$refs.container;
-			if (!cont)
-				return;
-			let maxWidth = cont.clientWidth;
-			let maxHeigth = cont.clientHeight;
-			let elems = [];
-			let y = columnHeaderHeigth$1;
-			const startX = p.startX;
-			for (const r of p.renderedRows()) {
-				let x = startX;
-				let rh = this.$parent.rowHeight(r);
-				for (const c of p.renderedColumns()) {
-					let colRef = toColRef(c);
-					let cw = p.colWidth(c);
-					const cellRef = `${colRef}${r + 1}`;
-					let cell = sh.Cells[cellRef];
-					if (cell) {
-						if (cell.ColSpan > 1 || cell.RowSpan > 1) {
-							let nw = cw;
-							let nh = rh;
-							for (let sc = 1; sc < cell.ColSpan; sc++)
-								nw += p.colWidth(sc + c);
-							for (let sr = 1; sr < cell.RowSpan; sr++)
-								nh += p.rowHeight(sr + r);
-							elems.push(h('div', {
-								class: 'cell-ph',
-								style: { left: toPx$1(x + 1), top: toPx$1(y + 1), width: toPx$1(nw - 1), height: toPx$1(nh - 1) }
-							}));
-						}
-						let cellCls = 'cell' + p.cellClass(cell);
-						elems.push(h('div', {
-							class: cellCls,
-							style: { left: toPx$1(x), top: toPx$1(y), width: toPx$1(cw + 1), height: toPx$1(rh + 1) }
-						},
-							cell.Content));
-					}
-					x += cw;
-					if (x >= maxWidth)
-						break;
-				}
-				y += rh;
-				if (y >= maxHeigth)
-					break;
+		},
+		methods: {
+			clickPh(c, r, cell, ev) {
+				ev.preventDefault();
+				ev.stopPropagation();
+				this.$parent.$selectCell(c, r, cell);
 			}
-			return h('div', { class: 'cells' }, elems);
 		}
 	};
 
@@ -437,7 +394,7 @@
 					let cls = 'sel';
 					if (s.bottom > s.top + 1 || s.right > s.left + 1)
 						cls += ' multiply';
-					ch.push(h('div', { class: cls, style: { left: toPx$1(r.left), top: toPx$1(r.top), width: toPx$1(r.width + 1), height: toPx$1(r.height + 1) } }));
+					ch.push(h('div', { class: cls, style: { left: toPx(r.left), top: toPx(r.top), width: toPx(r.width + 1), height: toPx(r.height + 1) } }));
 				}
 			}
 			return h('div', { class: 'selections' }, ch);
@@ -457,8 +414,8 @@
 			let cellRef = `${toColRef(r.c)}${r.r + 1}`;
 			let cell = p.sheet.Cells[cellRef];
 			return h('div', {
-				class: 'input cell-edit no-me' + p.cellClass(cell),
-				style: { left: toPx$1(r.l + 1), top: toPx$1(r.t + 1), width: toPx$1(r.w - 1), height: toPx$1(r.h - 1) },
+				class: 'input cell cell-edit no-me' + p.cellClass(cell),
+				style: { left: toPx(r.l + 1), top: toPx(r.t + 1), width: toPx(r.w - 1), height: toPx(r.h - 1) },
 				domProps: { contentEditable: true },
 				on: { blur: this.blur }
 			}, p.editText);
@@ -471,8 +428,8 @@
 
 	const toolbarTemplate = `
 <div class="ss-toolbar">TOOLBAR
-	<button @click="forAll('Bold')">B</button>
-	<button @click="forAll('Italic')">I</button>
+	<button @click="toggleBool('Bold')" :class="{checked: isChecked('Bold')}">B</button>
+	<button @click="toggleBool('Italic')" :class="{checked: isChecked('Italic')}">I</button>
 </div>
 `;
 	var spreadSheetToolbar = {
@@ -480,19 +437,13 @@
 		props: {
 		},
 		methods: {
-			forAll(prop) {
-				let sheet = this.$parent.sheet;
-				let sel = sheet.$selection;
-				if (!sel.length) return;
-				let set = true;
-				let create = true;
-				for (let sr of sel) {
-					for (let r = sr.top; r < sr.bottom; r++) {
-						for (let c = sr.left; c < sr.right; c++) {
-							this.$parent.setProp(c, r, (cell) => Vue.set(cell, prop, set), create);
-						}
-					}
-				}
+			isChecked(prop) {
+				return this.$parent.$getSelProp(prop);
+			},
+			toggleBool(prop) {
+				this.$parent.sheet;
+				this.$parent.$setSelProp(prop, !this.isChecked(prop));
+				return;
 			}
 		}
 	};
@@ -501,6 +452,14 @@
 	const defaultRowHeight = 23;
 
 	const rowComboWidth = 75;
+
+	function* enumerateSel(sel) {
+		if (!sel || !sel.length) return;
+		for (let sa of sel)
+			for (let r = sa.top; r < sa.bottom; r++)
+				for (let c = sa.left; c < sa.right; c++)
+					yield `${toColRef(c)}${r + 1}`;
+	}
 
 	const spreadsheetTemplate = `
 <div class="ss-container" :class="{editable}">
@@ -525,7 +484,6 @@
 		template: spreadsheetTemplate,
 		components: {
 			'ss-canvas': spreadSheetCanvas,
-			'ss-cell': spreadSheetCell,
 			'ss-cells': spreadSheetCells,
 			'ss-selection': spreadSheetSelection,
 			'ss-edit': spreadSheetEdit,
@@ -556,7 +514,7 @@
 		},
 		methods: {
 			rowFromPoint(pointY) {
-				let y = columnHeaderHeigth$1;
+				let y = columnHeaderHeigth;
 				for (const r of this.renderedRows()) {
 					let rh = this.rowHeight(r);
 					if (pointY >= y && pointY <= (y + rh))
@@ -602,7 +560,7 @@
 			},
 			selRect(s) {
 				let xc = s.left; let xr = s.top;
-				let y = columnHeaderHeigth$1;
+				let y = columnHeaderHeigth;
 				let rect = { left: 0, top: 0, height: 0, width: 0 };
 				for (const r of this.renderedRows()) {
 					let rh = this.rowHeight(r);
@@ -786,6 +744,14 @@
 				this.editing = true;
 
 			},
+			$selectCell(c, r, cell) {
+				let sht = this.sheet;
+				let sa = sht.$selection;
+				this.selecting = true;
+				sa.length = 0;
+				let sp = { left: c, top: r, right: c + (cell.ColSpan || 1), bottom: r + (cell.RowSpan || 1)};
+				sa.push(sp);
+			},
 			pointerdown(ev) {
 				if (ev.srcElement.classList.contains('no-me'))
 					return;
@@ -801,7 +767,7 @@
 					let sp = { left: 0, top: rp.row, right: sht.Size.Columns + 1, bottom: rp.row + 1 };
 					sa.push(sp);
 				}
-				else if (p.y < columnHeaderHeigth$1) {
+				else if (p.y < columnHeaderHeigth) {
 					let cp = this.colFromPoint(p.x);
 					sa.length = 0;
 					let sp = { left: cp.col, top: 0, right: cp.col + 1, bottom: sht.Size.Rows + 1 };
@@ -829,7 +795,7 @@
 					this.rowFromPoint(p.y);
 					console.dir('select rows');
 				}
-				else if (p.y < columnHeaderHeigth$1) {
+				else if (p.y < columnHeaderHeigth) {
 					this.colFromPoint(p.x);
 					console.dir('select columns');
 				}
@@ -900,12 +866,16 @@
 				return this.sheet.$selection.some(c => cb(c, this.sheet.Cells[`${toColRef(c.left)}${c.top + 1}`]));
 			},
 			cellClass(cell) {
-				if (!cell) return '';
+				if (!cell || !cell.Style) return '';
+				let st = this.sheet.Styles[cell.Style];
+				if (!st) return '';
 				let c = '';
-				if (cell.Bold)
+				if (st.Bold)
 					c += ' bold';
-				if (cell.Italic)
+				if (st.Italic)
 					c += ' italic';
+				if (st.Align)
+					c += ` text-${st.Align.toLowerCase()}`;
 				return c;
 			},
 			hScrollPageSize() {
@@ -929,7 +899,7 @@
 				let cont = this.$refs.container;
 				if (!cont)
 					return 0;
-				let y = columnHeaderHeigth$1;
+				let y = columnHeaderHeigth;
 				let max = cont.clientHeight;
 				let rows = 0;
 				for (let r of this.renderedRows()) {
@@ -939,8 +909,25 @@
 					else if (r >= this.sheet.Fixed.Rows)
 						rows += 1;
 				}
-				//console.dir(rows);
 				return rows;
+			},
+			$getSelProp(prop) {
+				let sa = this.sheet.$selection;
+				if (!sa || !sa.length) return false;
+				let sel = sa[0];
+				let cellRef = `${toColRef(sel.left)}${sel.top+1}`;
+				let cell = this.sheet.Cells[cellRef];
+				if (!cell || !cell.Style) return false;
+				let style = this.sheet.Styles[cell.Style];
+				if (!style) return false;
+				return style[prop] || false;
+			},
+			$setSelProp(prop, val) {
+				let sel = this.sheet.$selection;
+				for (let cr of enumerateSel(sel)) {
+					console.dir(cr);
+				}
+				return true;
 			}
 		},
 		mounted() {

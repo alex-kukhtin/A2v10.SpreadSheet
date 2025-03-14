@@ -1,6 +1,5 @@
 ﻿
 import spreadSheetCanvas from './canvas';
-import spreadSheetCell from './cell';
 import spreadSheetCells from './cells';
 import spreadSheetSelection from './selection';
 import spreadSheetEdit from './edit';
@@ -12,6 +11,14 @@ const defaultColumWidth = 100;
 const defaultRowHeight = 23;
 
 const rowComboWidth = 75;
+
+function* enumerateSel(sel) {
+	if (!sel || !sel.length) return;
+	for (let sa of sel)
+		for (let r = sa.top; r < sa.bottom; r++)
+			for (let c = sa.left; c < sa.right; c++)
+				yield `${toColRef(c)}${r + 1}`;
+}
 
 const spreadsheetTemplate = `
 <div class="ss-container" :class="{editable}">
@@ -36,7 +43,6 @@ Vue.component('a2-spreadsheet', {
 	template: spreadsheetTemplate,
 	components: {
 		'ss-canvas': spreadSheetCanvas,
-		'ss-cell': spreadSheetCell,
 		'ss-cells': spreadSheetCells,
 		'ss-selection': spreadSheetSelection,
 		'ss-edit': spreadSheetEdit,
@@ -297,6 +303,14 @@ Vue.component('a2-spreadsheet', {
 			this.editing = true;
 
 		},
+		$selectCell(c, r, cell) {
+			let sht = this.sheet;
+			let sa = sht.$selection;
+			this.selecting = true;
+			sa.length = 0;
+			let sp = { left: c, top: r, right: c + (cell.ColSpan || 1), bottom: r + (cell.RowSpan || 1)};
+			sa.push(sp);
+		},
 		pointerdown(ev) {
 			if (ev.srcElement.classList.contains('no-me'))
 				return;
@@ -411,12 +425,16 @@ Vue.component('a2-spreadsheet', {
 			return this.sheet.$selection.some(c => cb(c, this.sheet.Cells[`${toColRef(c.left)}${c.top + 1}`]));
 		},
 		cellClass(cell) {
-			if (!cell) return '';
+			if (!cell || !cell.Style) return '';
+			let st = this.sheet.Styles[cell.Style];
+			if (!st) return '';
 			let c = '';
-			if (cell.Bold)
+			if (st.Bold)
 				c += ' bold';
-			if (cell.Italic)
+			if (st.Italic)
 				c += ' italic';
+			if (st.Align)
+				c += ` text-${st.Align.toLowerCase()}`;
 			return c;
 		},
 		hScrollPageSize() {
@@ -450,8 +468,25 @@ Vue.component('a2-spreadsheet', {
 				else if (r >= this.sheet.Fixed.Rows)
 					rows += 1;
 			}
-			//console.dir(rows);
 			return rows;
+		},
+		$getSelProp(prop) {
+			let sa = this.sheet.$selection;
+			if (!sa || !sa.length) return false;
+			let sel = sa[0];
+			let cellRef = `${toColRef(sel.left)}${sel.top+1}`;
+			let cell = this.sheet.Cells[cellRef];
+			if (!cell || !cell.Style) return false;
+			let style = this.sheet.Styles[cell.Style];
+			if (!style) return false;
+			return style[prop] || false;
+		},
+		$setSelProp(prop, val) {
+			let sel = this.sheet.$selection;
+			for (let cr of enumerateSel(sel)) {
+				console.dir(cr);
+			}
+			return true;
 		}
 	},
 	mounted() {

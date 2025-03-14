@@ -31,6 +31,14 @@ body {
 		top:0;
 		height:@tb-heigth;
 		display:flex;
+
+		button {
+			width:24px;
+			height:24px;
+			&.checked {
+				background-color:aquamarine;
+			}
+		}
 	}
 }
 
@@ -83,22 +91,45 @@ body {
 		}
 	}
 
+	.cell-ph {
+		background-color: white;
+		position: absolute;
+		pointer-events: all;
+	}
+
 	.cell {
 		position: absolute;
 		box-sizing: border-box;
-		padding: 4px 4px;
+		padding: 4px;
 		white-space: nowrap;
 		overflow: visible;
 		line-height: 1;
 		cursor: default;
 		display: inline-flex;
+		border: 1px solid transparent;
+
+		&.cell-edit {
+			line-height: 1;
+			outline: none;
+			padding:3px;
+			background-color: lemonchiffon;
+			min-width: fit-content;
+			min-height: fit-content;
+		}
 
 		&.bold {
 			font-weight: bold;
 		}
 
-		&.italic{
-			font-style:italic;
+		&.italic {
+			font-style: italic;
+		}
+
+		&.span {
+		}
+
+		&.text-center {
+			justify-content: center;
 		}
 	}
 
@@ -173,18 +204,6 @@ body {
 		&.multiply {
 			background-color: rgba(59, 197, 234, 0.2);
 		}
-	}
-
-	.cell-edit {
-		position: absolute;
-		box-sizing: border-box;
-		padding: 3px;
-		line-height: 1;
-		outline: none;
-		border: none;
-		background-color: lemonchiffon;
-		min-width: fit-content;
-		min-height: fit-content;
 	}
 }
 

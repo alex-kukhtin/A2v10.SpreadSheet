@@ -6,18 +6,17 @@
 7. Keyboard (доделать)
 8. TextAlign, Underline, Background Colors
 *10. RowRanges for REPORTS
-12. Editor не учитывает ColSpan,RowSpan
 16. ≈сли выключен header то подсчитать maxPos в Canvas.
 18. Render Cells/Canvas не учитывает :headers
-19. Styles???? - таки надо
 20. Selection Rectangle - Show First column (a'la Excel)
 21. ResizeSheet - неправильный ThumbSize
 22. FitScroll при увеличении размеров - остаетс€ большой кусок справа внизу
 23. FitScrollPos дл€ Key Home/End
-24. ѕеределать setProp дл€ toolbar.  ак-то определ€ть надо ли устанавливать
 25. $selection из модели в элемент
-26. edit - должен наследовать bold/italic
 28. Escape - CancelEdit
 29. RowHeight/ColWidth - CancelEdit
 30. Ќеправильные scrollThumb в конце таблицы.
-31. 
+31. pointermove - если пересекаем span - включать его. 
+32. computed.spannedCells
+33. StyleProcessor
+34. Undo/Redo ???
