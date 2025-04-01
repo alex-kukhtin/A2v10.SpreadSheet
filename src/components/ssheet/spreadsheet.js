@@ -5,7 +5,7 @@ import spreadSheetSelection from './selection';
 import spreadSheetEdit from './edit';
 import spreadSheetToolbar from './toolbar';
 
-import { toColRef, rowHeaderWidth, columnHeaderHeigth } from '../common/utils';
+import { toColRef, rowHeaderWidth, columnHeaderHeigth, styleHashCode, StyleProcessor } from '../common/utils';
 
 const defaultColumWidth = 100;
 const defaultRowHeight = 23;
@@ -484,7 +484,14 @@ Vue.component('a2-spreadsheet', {
 		$setSelProp(prop, val) {
 			let sel = this.sheet.$selection;
 			for (let cr of enumerateSel(sel)) {
-				console.dir(cr);
+				let cell = this.sheet.Cells[cr];
+				if (!cell) {
+					cell = { Content: val }
+					Vue.set(this.sheet.Cells, cr, cell);
+					cell = this.sheet.Cells[cr];
+				}
+				this.__sp.findStyle(cell.Style);
+				console.dir(styleHashCode(cell.Style));
 			}
 			return true;
 		}
@@ -500,6 +507,10 @@ Vue.component('a2-spreadsheet', {
 			this.fitScrollPos();
 		});
 		this.__ro.observe(this.$el);
+		this.__sp = new StyleProcessor(this.sheet.Styles);
+		for (let s of Object.keys(this.sheet.Styles)) {
+			console.log(s, styleHashCode(this.sheet.Styles[s]));
+		}
 	},
 	beforeDestroy() {
 		if (this.__ro)

@@ -9,6 +9,29 @@
 	const rowHeaderWidth = 32;
 	const columnHeaderHeigth = 23; // column header height - 1
 
+
+	function styleHashCode(st) {
+		if (!st) return '-';
+		let b = st.Bold ? 'B' : '-';
+		let i = st.Italic ? 'I' : '-';
+		let fs = st.FontSize ? `FS${st.FontSize}` : '-';
+		let a = st.Align ? st.Align[0] : '-';
+		let va = st.VAlign ? st.VAlign[0] : '-';
+		return `${b}:${i}:${fs}:${a}:${va}`;
+	}
+
+	class StyleProcessor {
+		constructor(styles) {
+			this.styles = styles;
+		}
+
+		findStyle(st) {
+			let hash = styleHashCode(st);
+			console.dir(st);
+			return this.styles[hash] || null;
+		}
+	}
+
 	Vue.component('a2-scroll-bar', {
 		template: `
 <div class="a2-sb" :class="sbClass">
@@ -925,7 +948,14 @@
 			$setSelProp(prop, val) {
 				let sel = this.sheet.$selection;
 				for (let cr of enumerateSel(sel)) {
-					console.dir(cr);
+					let cell = this.sheet.Cells[cr];
+					if (!cell) {
+						cell = { Content: val };
+						Vue.set(this.sheet.Cells, cr, cell);
+						cell = this.sheet.Cells[cr];
+					}
+					this.__sp.findStyle(cell.Style);
+					console.dir(styleHashCode(cell.Style));
 				}
 				return true;
 			}
@@ -941,6 +971,10 @@
 				this.fitScrollPos();
 			});
 			this.__ro.observe(this.$el);
+			this.__sp = new StyleProcessor(this.sheet.Styles);
+			for (let s of Object.keys(this.sheet.Styles)) {
+				console.log(s, styleHashCode(this.sheet.Styles[s]));
+			}
 		},
 		beforeDestroy() {
 			if (this.__ro)

@@ -20,3 +20,4 @@
 32. computed.spannedCells
 33. StyleProcessor
 34. Undo/Redo ???
+35. StyleHash: Align, VAlign, Bold, Italic, FontSize, Border
