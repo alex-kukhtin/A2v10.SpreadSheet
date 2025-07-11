@@ -490,6 +490,7 @@ Vue.component('a2-spreadsheet', {
 					Vue.set(this.sheet.Cells, cr, cell);
 					cell = this.sheet.Cells[cr];
 				}
+				console.dir(cell.Style);
 				this.__sp.findStyle(cell.Style);
 				console.dir(styleHashCode(cell.Style));
 			}

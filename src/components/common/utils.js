@@ -26,4 +26,8 @@ export class StyleProcessor {
 		console.dir(st);
 		return this.styles[hash] || null;
 	}
+
+	setStyle(st, prop, val) {
+
+	}
 };

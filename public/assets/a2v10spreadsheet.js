@@ -30,6 +30,10 @@
 			console.dir(st);
 			return this.styles[hash] || null;
 		}
+
+		setStyle(st, prop, val) {
+
+		}
 	}
 
 	Vue.component('a2-scroll-bar', {
@@ -954,6 +958,7 @@
 						Vue.set(this.sheet.Cells, cr, cell);
 						cell = this.sheet.Cells[cr];
 					}
+					console.dir(cell.Style);
 					this.__sp.findStyle(cell.Style);
 					console.dir(styleHashCode(cell.Style));
 				}
