@@ -13,21 +13,44 @@ export function styleHashCode(st) {
 	let fs = st.FontSize ? `FS${st.FontSize}` : '-';
 	let a = st.Align ? st.Align[0] : '-';
 	let va = st.VAlign ? st.VAlign[0] : '-';
-	return `${b}:${i}:${fs}:${a}:${va}`;
+	let brd = st.Border || '-';
+	return `${b}:${i}:${fs}:${a}:${va}:${brd}`;
 }
 
 export class StyleProcessor {
 	constructor(styles) {
 		this.styles = styles;
+		this.stylesMap = Object.keys(this.styles).reduce((p, c) => {
+			let st = this.styles[c];
+			let sc = styleHashCode(st);
+			p[sc] = c;
+			return p;
+		}, {});
 	}
 
-	findStyle(st) {
-		let hash = styleHashCode(st);
-		console.dir(st);
-		return this.styles[hash] || null;
+	defaultStyle() {
+		return {};		
 	}
 
-	setStyle(st, prop, val) {
+	appendNewStyle(styleObj, hashCode) {
+		let ix = Object.keys(this.styles).length + 1;
+		let skey = '';
+		do {
+			skey = `S${ix}`;
+			ix += 1;
+		} while (this.styles[skey]);
+		Vue.set(this.styles, skey, styleObj);
+		this.stylesMap[hashCode] = skey;
+		return skey;
+	}
 
+	setStyleProp(st, prop, val) {
+		let sobj = Object.assign({}, this.styles[st] || this.defaultStyle());
+		sobj[prop] = val;
+		let shc = styleHashCode(sobj);
+		if (shc === '-:-:-:-:-:-')
+			return undefined;
+		let ns = this.stylesMap[shc];
+		return ns || this.appendNewStyle(sobj, shc);
 	}
 };

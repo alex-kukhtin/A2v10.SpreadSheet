@@ -255,16 +255,6 @@ Vue.component('a2-spreadsheet', {
 			this.fitSpan(cp, rp);
 			this.doEdit(cp, rp);
 		},
-		setProp(c, r, cb, create) {
-			let cellRef = `${toColRef(c)}${r + 1}`;
-			let cell = this.sheet.Cells[cellRef];
-			if (!cell && create) {
-				cell = {};
-				Vue.set(this.sheet.Cells, cellRef, cell);
-			}
-			if (cell)
-				cb(cell);
-		},
 		endEdit(val) {
 			let r = this.editRect;
 			let cellRef = `${toColRef(r.c)}${r.r + 1}`;
@@ -435,6 +425,8 @@ Vue.component('a2-spreadsheet', {
 				c += ' italic';
 			if (st.Align)
 				c += ` text-${st.Align.toLowerCase()}`;
+			if (st.VAlign)
+				c += ` align-${st.VAlign.toLowerCase()}`;
 			return c;
 		},
 		hScrollPageSize() {
@@ -490,9 +482,12 @@ Vue.component('a2-spreadsheet', {
 					Vue.set(this.sheet.Cells, cr, cell);
 					cell = this.sheet.Cells[cr];
 				}
+				Vue.set(cell, 'Style', this.__sp.setStyleProp(cell.Style, prop, val));
+				/*
 				console.dir(cell.Style);
 				this.__sp.findStyle(cell.Style);
 				console.dir(styleHashCode(cell.Style));
+				*/
 			}
 			return true;
 		}

@@ -107,11 +107,12 @@ body {
 		cursor: default;
 		display: inline-flex;
 		border: 1px solid transparent;
+		align-items: baseline;
 
 		&.cell-edit {
 			line-height: 1;
 			outline: none;
-			padding:3px;
+			padding: 3px;
 			background-color: lemonchiffon;
 			min-width: fit-content;
 			min-height: fit-content;
@@ -130,6 +131,18 @@ body {
 
 		&.text-center {
 			justify-content: center;
+		}
+
+		&.text-right {
+			justify-content: right;
+		}
+
+		&.align-middle {
+			align-items: center;
+		}
+
+		&.align-bottom {
+			align-items: end;
 		}
 	}
 
