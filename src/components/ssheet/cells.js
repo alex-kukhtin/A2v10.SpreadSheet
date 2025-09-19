@@ -25,23 +25,25 @@ export default {
 					let nw = cw;
 					let nh = rh;
 					let cellCls = 'cell' + p.cellClass(cell);
+					let cellStyle = p.cellStyle(cell);
 					if (cell.ColSpan > 1 || cell.RowSpan > 1) {
 						for (let sc = 1; sc < cell.ColSpan; sc++)
 							nw += p.colWidth(sc + c);
 						for (let sr = 1; sr < cell.RowSpan; sr++)
 							nh += p.rowHeight(sr + r);
 						cellCls += ' span';
+						let cellStyle = { left: toPx(x + 1), top: toPx(y + 1), width: toPx(nw - 1), height: toPx(nh - 1) }
 						elems.push(h('div', {
 							class: 'cell-ph',
-							style: { left: toPx(x + 1), top: toPx(y + 1), width: toPx(nw - 1), height: toPx(nh - 1) },
+							style: cellStyle
 						}));
 					}
 					elems.push(h('div', {
 						class: cellCls,
-						style: { left: toPx(x), top: toPx(y), width: toPx(nw + 1), height: toPx(nh + 1) },
+						style: Object.assign({ left: toPx(x), top: toPx(y), width: toPx(nw + 1), height: toPx(nh + 1) }, cellStyle),
 						on: { pointerdown: (ev) => this.clickPh(c, r, cell, ev) }
 					},
-					cell.Content));
+					cell.Value));
 				}
 				x += cw;
 				if (x >= maxWidth)

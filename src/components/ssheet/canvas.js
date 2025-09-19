@@ -1,5 +1,5 @@
 ﻿
-import { toColRef, toPx, rowHeaderWidth, columnHeaderHeigth } from '../common/utils';
+import { toColRef, toPx, rowHeaderWidth, columnHeaderHeigth, px2Pt } from '../common/utils';
 
 export default {
 	data() {
@@ -44,8 +44,10 @@ export default {
 		},
 		hMouseUp(ev) {
 			this.onUp(ev, nw => {
+				let cw = px2pt(nw);
+				// TODO: check DEFAULT width
 				let col = this.$parent.getOrCreateColumn(this.rItem);
-				Vue.set(col, 'Width', nw);
+				Vue.set(col, 'Width', cw);
 			});
 		},
 		hMouseMove(ev) {
@@ -68,7 +70,7 @@ export default {
 		vMouseUp(ev) {
 			this.onUp(ev, nh => {
 				let row = this.$parent.getOrCreateRow(this.rItem);
-				Vue.set(row, 'Height', nh);
+				Vue.set(row, 'Height', px2Pt(nh));
 			});
 		},
 		vMouseMove(ev) {
@@ -98,7 +100,7 @@ export default {
 				if (x >= maxWidth)
 					break;
 				let cls = 'vline';
-				if (c == sh.Fixed.Columns - 1)
+				if (c == sh.FixedColumns - 1)
 					cls += ' freeze';
 				elems.push(h('div', { class: cls, style: { left: toPx(x), height: toPx(maxPos.bottom) } }));
 			}
@@ -112,7 +114,7 @@ export default {
 				if (y >= maxHeigth)
 					break;
 				let cls = 'hline';
-				if (r === sh.Fixed.Rows - 1)
+				if (r === sh.FixedRows - 1)
 					cls += ' freeze';
 				elems.push(h('div', { class: cls, style: { top: toPx(y), width: toPx(maxPos.right) } }));
 			}
@@ -126,7 +128,7 @@ export default {
 				let cls = 'thc';
 				if (parent.isInSelection((sel, cell) => c >= sel.left && c <= sel.left + (cell?.ColSpan - 1 || 0)))
 					cls += ' thc-sel';
-				if (c === sh.Size.Columns - 1) {
+				if (c === sh.ColumnCount - 1) {
 					cls += ' last';
 					cw += 1;
 				}
@@ -149,7 +151,7 @@ export default {
 				let cls = 'thr'
 				if (parent.isInSelection((sel, cell) => r >= sel.top && r <= sel.top + (cell?.RowSpan - 1 || 0)))
 					cls += ' thr-sel'
-				if (r === sh.Size.Rows - 1) {
+				if (r === sh.RowCount - 1) {
 					cls += ' last';
 					rh += 1;
 				}

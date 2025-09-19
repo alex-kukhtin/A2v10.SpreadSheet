@@ -3,7 +3,7 @@ import { toPx } from '../common/utils';
 
 export default {
 	render(h) {
-		let sel = this.$parent.sheet.$selection;
+		let sel = this.$parent.selection;
 		let ch = [];
 		for (let i = 0; i < sel.length; i++) {
 			let s = sel[i];

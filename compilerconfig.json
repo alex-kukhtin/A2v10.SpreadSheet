@@ -2,5 +2,9 @@
     {
         "outputFile": "public/assets/a2v10spreadsheet.css",
         "inputFile": "src/less/main.less"
+    },
+    {
+        "outputFile": "public/assets/debug.css",
+        "inputFile": "src/less/debug.less"
     }
 ]

@@ -1,10 +1,15 @@
 /* TODO
 
-2. cellFromPoint: useSpan
+2. cellFromPoint: useSpan (spanMap как объект при инициализации)
+3. colWidth/rowHeigth - учет Default и удаление лишних
+4. DefaultStyle - font-size, font-family
+5. 
+
+
 3. Уголки (LT, BR)
 *4. Cell Controls. UsePlatform
 7. Keyboard (доделать)
-8. TextAlign, Underline, Background Colors
+8. Underline, Background Colors
 *10. RowRanges for REPORTS
 16. Если выключен header то подсчитать maxPos в Canvas.
 18. Render Cells/Canvas не учитывает :headers
@@ -12,12 +17,9 @@
 21. ResizeSheet - неправильный ThumbSize
 22. FitScroll при увеличении размеров - остается большой кусок справа внизу
 23. FitScrollPos для Key Home/End
-25. $selection из модели в элемент
 28. Escape - CancelEdit
 29. RowHeight/ColWidth - CancelEdit
 30. Неправильные scrollThumb в конце таблицы.
 31. pointermove - если пересекаем span - включать его. 
 32. computed.spannedCells
-33. StyleProcessor
 34. Undo/Redo ???
-35. StyleHash: Align, VAlign, Bold, Italic, FontSize, Border
