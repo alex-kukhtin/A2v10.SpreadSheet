@@ -9,6 +9,24 @@
 	const rowHeaderWidth = 32;
 	const columnHeaderHeigth = 23; // column header height - 1
 
+	function fromCellRef(ref) { 
+		const match = ref.match(/^([A-Z]+)(\d+)$/);
+		if (!match)
+			throw new Error(`Invalid cell reference: ${ref}`);
+
+		const c = match[1];
+		const rn = parseInt(match[2], 10);
+
+		// (A=1, B=2, ..., Z=26, AA=27 ..)
+		let cn = 0;
+		for (let i = 0; i < c.length; i++) {
+			cn *= 26;
+			cn += c.charCodeAt(i) - 64; // 'A'.charCodeAt(0) === 65
+		}
+
+		return { r: rn, c: cn - 1 };
+	}
+
 
 	function pt2Px(p) {
 		return Math.round(p * 1.33333 * 100) / 100; // pt * (96 / 72);
@@ -864,7 +882,7 @@
 				let sa = this.selection;
 				this.selecting = true;
 				sa.length = 0;
-				let sp = { left: c, top: r, right: c + (cell.ColSpan || 1), bottom: r + (cell.RowSpan || 1)};
+				let sp = { left: c, top: r, right: c + (cell.ColSpan || 1), bottom: r + (cell.RowSpan || 1) };
 				sa.push(sp);
 			},
 			pointerdown(ev) {
@@ -1065,6 +1083,23 @@
 			});
 			this.__ro.observe(this.$el);
 			this.__sp = new StyleProcessor(this.sheet.Styles);
+			this.__mergeCells = {};
+			for (let cr in this.sheet.Cells) {
+				let cell = this.sheet.Cells[cr];
+				if (cell.ColSpan > 1 || cell.RowSpan > 1) {
+					let rowCol = fromCellRef(cr);
+					if (cell.RowSpan > 1 && (cell.ColSpan || 1) == 1)
+						for (let r = 1; r < (cell.RowSpan || 1); r++)
+							this.__mergeCells[`${toColRef(rowCol.c)}${r + rowCol.r}`] = cr;
+					else if (cell.ColSpan > 1 && (cell.RowSpan || 1) == 1)
+						for (let c = 1; c < (cell.ColSpan || 1); c++)
+							this.__mergeCells[`${toColRef(c + rowCol.c)}${rowCol.r}`] = cr;
+					else
+						for (let c = 1; c < (cell.ColSpan || 1); c++)
+							for (let r = 1; r < (cell.RowSpan || 1); r++)
+								this.__mergeCells[`${toColRef(c + rowCol.c)}${r + rowCol.r}`] = cr;
+				}
+			}
 			// TODO: auto style
 			this.sheet.ColumnCount = 26;
 			this.sheet.RowCount = 100;

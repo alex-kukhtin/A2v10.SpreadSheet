@@ -6,7 +6,7 @@ import spreadSheetEdit from './edit';
 import spreadSheetToolbar from './toolbar';
 
 import {
-	toColRef, rowHeaderWidth, columnHeaderHeigth, StyleProcessor,
+	toColRef, fromCellRef, rowHeaderWidth, columnHeaderHeigth, StyleProcessor,
 	pt2Px
 } from '../common/utils';
 
@@ -301,7 +301,7 @@ Vue.component('a2-spreadsheet', {
 			let sa = this.selection;
 			this.selecting = true;
 			sa.length = 0;
-			let sp = { left: c, top: r, right: c + (cell.ColSpan || 1), bottom: r + (cell.RowSpan || 1)};
+			let sp = { left: c, top: r, right: c + (cell.ColSpan || 1), bottom: r + (cell.RowSpan || 1) };
 			sa.push(sp);
 		},
 		pointerdown(ev) {
@@ -502,6 +502,23 @@ Vue.component('a2-spreadsheet', {
 		});
 		this.__ro.observe(this.$el);
 		this.__sp = new StyleProcessor(this.sheet.Styles);
+		this.__mergeCells = {};
+		for (let cr in this.sheet.Cells) {
+			let cell = this.sheet.Cells[cr];
+			if (cell.ColSpan > 1 || cell.RowSpan > 1) {
+				let rowCol = fromCellRef(cr);
+				if (cell.RowSpan > 1 && (cell.ColSpan || 1) == 1)
+					for (let r = 1; r < (cell.RowSpan || 1); r++)
+						this.__mergeCells[`${toColRef(rowCol.c)}${r + rowCol.r}`] = cr;
+				else if (cell.ColSpan > 1 && (cell.RowSpan || 1) == 1)
+					for (let c = 1; c < (cell.ColSpan || 1); c++)
+						this.__mergeCells[`${toColRef(c + rowCol.c)}${rowCol.r}`] = cr;
+				else
+					for (let c = 1; c < (cell.ColSpan || 1); c++)
+						for (let r = 1; r < (cell.RowSpan || 1); r++)
+							this.__mergeCells[`${toColRef(c + rowCol.c)}${r + rowCol.r}`] = cr;
+			}
+		}
 		// TODO: auto style
 		this.sheet.ColumnCount = 26;
 		this.sheet.RowCount = 100;

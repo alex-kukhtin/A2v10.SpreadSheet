@@ -5,6 +5,24 @@ export const toPx = (n) => n + 'px';
 export const rowHeaderWidth = 32;
 export const columnHeaderHeigth = 23; // column header height - 1
 
+export function fromCellRef(ref) { 
+	const match = ref.match(/^([A-Z]+)(\d+)$/);
+	if (!match)
+		throw new Error(`Invalid cell reference: ${ref}`);
+
+	const c = match[1];
+	const rn = parseInt(match[2], 10);
+
+	// (A=1, B=2, ..., Z=26, AA=27 ..)
+	let cn = 0;
+	for (let i = 0; i < c.length; i++) {
+		cn *= 26;
+		cn += c.charCodeAt(i) - 64; // 'A'.charCodeAt(0) === 65
+	}
+
+	return { r: rn, c: cn - 1 };
+}
+
 
 export function pt2Px(p) {
 	return Math.round(p * 1.33333 * 100) / 100; // pt * (96 / 72);
