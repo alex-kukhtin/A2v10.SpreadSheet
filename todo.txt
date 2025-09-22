@@ -4,7 +4,10 @@
 3. colWidth/rowHeigth - учет Default и удаление лишних
 4. DefaultStyle - font-size, font-family
 5. Если двигамся влево в Span - не уходит влево на Span
-
+6. Ячеек, которые часть Span быть не должно.
+7. Если начать редактировать, и уйти в другую ячейку (часть Span) - остается видимым редактор.
+9. Редактор - учет шрифта.
+10. Formula Bar
 
 3. Уголки (LT, BR)
 *4. Cell Controls. UsePlatform

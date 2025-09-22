@@ -56,7 +56,8 @@ export class StyleProcessor {
 		let a = st.Align ? st.Align[0] : '-';
 		let va = st.VAlign ? st.VAlign[0] : '-';
 		let brd = st.Border || '-';
-		return `${b}:${i}:${fs}:${a}:${va}:${brd}`;
+		let bg = st.BackgroundColor ? `BG${st.Background}` : '-';
+		return `${b}:${i}:${fs}:${a}:${va}:${brd}:${bg}`;
 	}
 
 	cellClass(key) {
@@ -80,6 +81,10 @@ export class StyleProcessor {
 		if (!st) return c;
 		if (st.FontSize)
 			c.fontSize = `${st.FontSize}pt`;
+		if (st.FontName) {
+			c.fontFamily = st.FontName;
+			console.dir(c);
+		}
 
 		function setBorder(name, val) {
 			val = +val;
@@ -104,6 +109,8 @@ export class StyleProcessor {
 				setBorder('borderLeft', bx[3]);
 			}
 		}
+		if (st.Background)
+			c.backgroundColor = "#" + st.Background;
 		return c;
 	}
 

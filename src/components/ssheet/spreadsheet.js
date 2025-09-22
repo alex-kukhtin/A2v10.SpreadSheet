@@ -194,7 +194,7 @@ Vue.component('a2-spreadsheet', {
 			if (deltaY > 0)
 				this.scrollPos.y = Math.min(this.scrollPos.y + deltaY, this.sheet.RowCount - this.vScrollPageSize());
 			else
-				this.scrollPos.y = Math.max(this.scrollPos.y + deltaY, this.sheet.FixedRows);
+				this.scrollPos.y = Math.max(this.scrollPos.y + deltaY, (this.sheet.FixedRows || 0));
 		},
 		keydown(ev) {
 			let sa = this.selection;
@@ -290,7 +290,7 @@ Vue.component('a2-spreadsheet', {
 			er.r = rp.row;
 			let c = this.sheet.Cells[`${toColRef(cp.col)}${rp.row + 1}`];
 			if (c)
-				this.editText = c.Content;
+				this.editText = c.Value;
 			else
 				this.editText = '';
 			this.editing = true;
@@ -384,7 +384,7 @@ Vue.component('a2-spreadsheet', {
 			let cont = this.$refs.container;
 			let cWidth = cont.clientWidth - 1; //- rowHeaderWidth;
 			let cHeight = cont.clientHeight - 1; //- columnHeaderHeigth;
-			let fix = this.sheet.Fixed || {};
+			let fix = { Rows: this.sheet.FixedRows || 0, Columns: this.sheet.FixedColumns|| 0 };
 			let sp = this.scrollPos;
 			let sr = null;
 			if (sp.y > fix.Rows && sel.top < sp.y)
@@ -475,7 +475,7 @@ Vue.component('a2-spreadsheet', {
 			for (let cr of enumerateSel(sel)) {
 				let cell = this.sheet.Cells[cr];
 				if (!cell) {
-					cell = { Content: val }
+					cell = { Value: val }
 					Vue.set(this.sheet.Cells, cr, cell);
 					cell = this.sheet.Cells[cr];
 				}
