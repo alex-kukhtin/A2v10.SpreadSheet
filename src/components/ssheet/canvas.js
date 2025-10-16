@@ -44,7 +44,7 @@ export default {
 		},
 		hMouseUp(ev) {
 			this.onUp(ev, nw => {
-				let cw = px2pt(nw);
+				let cw = px2Pt(nw);
 				// TODO: check DEFAULT width
 				let col = this.$parent.getOrCreateColumn(this.rItem);
 				Vue.set(col, 'Width', cw);

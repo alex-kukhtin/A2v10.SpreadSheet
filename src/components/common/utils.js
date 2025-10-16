@@ -101,6 +101,8 @@ export class StyleProcessor {
 			if (bx.length === 1) {
 				if (+bx[0] === 0.2)
 					c.border = "1px solid black";
+				else if (+bx[0] === 1)
+					c.border = "3px solid black";
 			}
 			else if (bx.length === 4) {
 				setBorder('borderTop', bx[0]);

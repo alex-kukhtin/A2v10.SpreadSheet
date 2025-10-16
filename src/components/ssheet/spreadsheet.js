@@ -98,11 +98,17 @@ Vue.component('a2-spreadsheet', {
 		},
 		colWidth(c) {
 			let col = this.sheet.Columns[toColRef(c)];
-			return pt2Px(col ? (col.Width == -1 ? 70 : col.Width) : defaultColumWidth);
+			let cw = this.sheet.ColumnWidth ?? defaultColumWidth;
+			if (col && col.Width)
+				cw = col.Width == -1 ? 70 : col.Width;
+			return pt2Px(cw);
 		},
 		rowHeight(r) {
 			let row = this.sheet.Rows[r + 1];
-			return pt2Px(row ? row.Height : defaultRowHeight);
+			let rh = this.sheet.RowHeight ?? defaultRowHeight;
+			if (row && row.Height)
+				rh = row.Height;
+			return pt2Px(rh);
 		},
 		getOrCreateRow(r) {
 			let row = this.sheet.Rows[r + 1];
@@ -316,13 +322,13 @@ Vue.component('a2-spreadsheet', {
 			if (p.x < this.startX) {
 				let rp = this.rowFromPoint(p.y);
 				sa.length = 0;
-				let sp = { left: 0, top: rp.row, right: sht.ColumnCount + 1, bottom: rp.row + 1 };
+				let sp = { left: 0, top: rp.row, right: sht.ColumnCount, bottom: rp.row + 1 };
 				sa.push(sp);
 			}
 			else if (p.y < columnHeaderHeigth) {
 				let cp = this.colFromPoint(p.x);
 				sa.length = 0;
-				let sp = { left: cp.col, top: 0, right: cp.col + 1, bottom: sht.RowCount + 1 };
+				let sp = { left: cp.col, top: 0, right: cp.col + 1, bottom: sht.RowCount};
 				sa.push(sp);
 			}
 			else {
@@ -371,7 +377,7 @@ Vue.component('a2-spreadsheet', {
 			}
 		},
 		pointerup(ev) {
-			ev.target.setPointerCapture(ev.pointerId);
+			ev.target.releasePointerCapture(ev.pointerId);
 			this.selecting = false;
 			this.selStart.x = 0;
 			this.selStart.y = 0;
@@ -520,8 +526,8 @@ Vue.component('a2-spreadsheet', {
 			}
 		}
 		// TODO: auto style
-		this.sheet.ColumnCount = 26;
-		this.sheet.RowCount = 100;
+		this.sheet.ColumnCount = Math.max(this.sheet.ColumnCount, 26);
+		this.sheet.RowCount = Math.max(this.sheet.RowCount, 100);
 	},
 	beforeDestroy() {
 		if (this.__ro)
