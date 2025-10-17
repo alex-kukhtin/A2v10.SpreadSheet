@@ -26,7 +26,7 @@ function* enumerateSel(sel) {
 const spreadsheetTemplate = `
 <div class="ss-container" :class="{editable}">
 	<ss-toolbar v-if="editable" />
-	<div class="ss-body" :key=updateCount ref=container tabindex=0
+	<div class="ss-body" :key=updateCount ref=container tabindex=0 :style=bodyStyle
 		@pointerup=pointerup @pointerdown=pointerdown @pointermove=pointermove
 		@dblclick=dblclick @keydown.self.stop=keydown @wheel.prevent=mousewheel>
 		<ss-canvas />
@@ -52,7 +52,7 @@ Vue.component('a2-spreadsheet', {
 		'ss-toolbar': spreadSheetToolbar
 	},
 	props: {
-		sheet: Object,
+		report: Object,
 		gridLines: { type: Boolean, default: true },
 		headers: { type: Boolean, default: true },
 		rowsCombo: Boolean,
@@ -71,8 +71,15 @@ Vue.component('a2-spreadsheet', {
 		};
 	},
 	computed: {
+		sheet() {
+			return this.report.Workbook;
+		},
 		startX() {
 			return rowHeaderWidth + (this.rowsCombo ? rowComboWidth : 0);
+		},
+		bodyStyle() {
+			console.dir(this.sheet);
+			return { fontFamily: this.report.FontFamily, fontSize: `${this.sheet.FontSize}pt` };
 		}
 	},
 	methods: {
@@ -430,6 +437,10 @@ Vue.component('a2-spreadsheet', {
 		cellStyle(cell) {
 			if (!cell) return '';
 			return this.__sp.cellStyle(cell.Style);
+		},
+		cellStyle2(cell) {
+			if (!cell) return '';
+			return this.__sp.cellStyle2(cell.Style);
 		},
 		hScrollPageSize() {
 			let cont = this.$refs.container;

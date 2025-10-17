@@ -65,13 +65,13 @@ export class StyleProcessor {
 		let c = '';
 		if (!st) return c;
 		if (st.Bold)
-			c += ' bold';
+			c += ' c-bold';
 		if (st.Italic)
-			c += ' italic';
+			c += ' c-italic';
 		if (st.Align)
-			c += ` text-${st.Align.toLowerCase()}`;
+			c += ` c-text-${st.Align.toLowerCase()}`;
 		if (st.VAlign)
-			c += ` align-${st.VAlign.toLowerCase()}`;
+			c += ` c-align-${st.VAlign.toLowerCase()}`;
 		return c;
 	}
 
@@ -110,6 +110,20 @@ export class StyleProcessor {
 				setBorder('borderBottom', bx[2]);
 				setBorder('borderLeft', bx[3]);
 			}
+		}
+		if (st.Background)
+			c.backgroundColor = "#" + st.Background;
+		return c;
+	}
+
+	cellStyle2(key) {
+		let st = this.styles[key];
+		let c = {};
+		if (!st) return c;
+		if (st.FontSize)
+			c.fontSize = `${st.FontSize}pt`;
+		if (st.FontName) {
+			c.fontFamily = st.FontName;
 		}
 		if (st.Background)
 			c.backgroundColor = "#" + st.Background;

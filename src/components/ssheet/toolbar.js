@@ -1,6 +1,6 @@
 ﻿
 const toolbarTemplate = `
-<div class="ss-toolbar">TOOLBAR
+<div class="toolbar ss-toolbar">
 	<button @click="toggleBool('Bold')" :class="{checked: isChecked('Bold', true)}">B</button>
 	<button @click="toggleBool('Italic')" :class="{checked: isChecked('Italic', true)}">I</button>
 	<span>|</span>
@@ -10,7 +10,7 @@ const toolbarTemplate = `
 	<span>|</span>
 	<button @click="setProp('VAlign', '')" :class="{checked: isCheckedProp('VAlign', '')}">T</button>
 	<button @click="setProp('VAlign', 'Middle')" :class="{checked: isCheckedProp('VAlign', 'Middle')}">M</button>
-	<button @click="setProp('VAlign', 'Bottom')" :class="{checked: isCheckedProp('VAlign', 'Bottom')}">B</button>
+	<button class="btn btn-tb" @click="setProp('VAlign', 'Bottom')" :class="{checked: isCheckedProp('VAlign', 'Bottom')}"><i class="ico ico-copy" /></button>
 </div>
 `;
 export default {

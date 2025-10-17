@@ -15,7 +15,9 @@ export default {
 		let cell = p.sheet.Cells[cellRef];
 		return h('div', {
 			class: 'input cell cell-edit no-me' + p.cellClass(cell),
-			style: { left: toPx(r.l + 1), top: toPx(r.t + 1), width: toPx(r.w - 1), height: toPx(r.h - 1) },
+			style: Object.assign({
+				left: toPx(r.l + 1), top: toPx(r.t + 1), width: toPx(r.w - 1), height: toPx(r.h - 1),
+			}, p.cellStyle2(cell)),
 			domProps: { contentEditable: true },
 			on: { blur: this.blur }
 		}, p.editText);
