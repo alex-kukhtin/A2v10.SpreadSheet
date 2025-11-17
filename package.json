@@ -1,6 +1,6 @@
 {
 	"name": "a2v10.spreadsheet",
-	"version": "10.1.100",
+	"version": "10.1.103",
 	"type": "module",
 	"scripts": {
 		"build": "rollup -c",
@@ -12,13 +12,13 @@
 	"license": "MIT",
 	"description": "",
 	"devDependencies": {
-		"@rollup/plugin-commonjs": "^28.0.8",
+		"@rollup/plugin-commonjs": "^29.0.0",
 		"@rollup/plugin-node-resolve": "^16.0.3",
 		"@rollup/plugin-terser": "^0.4.4",
 		"rollup-plugin-copy": "3.5.0",
-		"eslint": "^9.37.0",
+		"eslint": "^9.39.1",
 		"npm-run-all": "^4.1.5",
-		"rollup": "^4.52.4",
+		"rollup": "^4.53.2",
 		"serve": "^14.2.5"
 	}
 }

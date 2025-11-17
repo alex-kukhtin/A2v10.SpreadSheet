@@ -10,8 +10,8 @@
 </head>
 <body>
 	<div id="app">
-		SPREADSHEET
-		<a2-spreadsheet :sheet="$data"></a2-spreadsheet>
+		SPREADSHEET 22
+		<a2-spreadsheet :report="$data"></a2-spreadsheet>
 		<div style="font-family:'Cascadia Mono'">{{$data}}</div>
 	</div>
 
@@ -20,59 +20,63 @@
 	<script src='assets/a2v10spreadsheet.js'></script>
 	<script>
 		const sheet = {
-			ColumnCount: 26,
-			RowCount: 100,
-			FixedRows: 5,
-			FixedColumns: 2,
-			Columns: {
-				C: { Width: 70 },
-				E: { Width: 150 }
+			Workbook: {
+				ColumnCount: 26,
+				RowCount: 100,
+				FixedRows: 5,
+				FixedColumns: 2,
+				Columns: {
+					C: { Width: 70 },
+					E: { Width: 150 }
 
-			},
-			Rows: {
-				"5": { Height: 29 },
-				"7": { Height: 38 }
-			},
-			Cells: {
-				B2: {
-					Value: "B2 Bold", Style: "S1"
 				},
-				D4: {
-					Value: "D4 long line text without wrap"
+				Rows: {
+					"5": { Height: 29 },
+					"7": { Height: 38 }
 				},
-				D5: {
-					Value: "D5 Italic", Style: "S2"
+				Cells: {
+					B2: {
+						Value: "B2 Bold", Style: "S1"
+					},
+					D4: {
+						Value: "D4 long line text without wrap"
+					},
+					D5: {
+						Value: "D5 Italic", Style: "S2"
+					},
+					E5: {
+						Value: "E5 Center (ColSpan)", ColSpan: 2, Style: 'S3',
+					},
+					B6: {
+						Value: "B6 Text (RowSpan)", RowSpan: 2
+					},
+					E9: {
+						Value: "E9 Text (RowSpan)", RowSpan: 2
+					},
+					D7: {
+						Value: "Style S4", ColSpan: 3, RowSpan: 2, Style: 'S4'
+					}
 				},
-				E5: {
-					Value: "E5 Center (ColSpan)", ColSpan: 2, Style: 'S3',
+				Styles: {
+					"S1": {
+						Bold: true
+					},
+					"S2": {
+						Italic: true
+					},
+					S3: {
+						Align: 'Center'
+					},
+					"S4": {
+						"Align": "Center",
+						"VAlign": "Middle",
+						FontSize: 12,
+						Bold: true,
+						Italic: true,
+						Border: ".2,.2,1,.2"
+					}
 				},
-				B6: {
-					Value: "B6 Text (RowSpan)", RowSpan: 2
-				},
-				"E9": {
-					Content: "B6 Text (RowSpan)", RowSpan: 2
-				}
-			},
-			Styles: {
-				"S1": {
-					Bold : true
-				},
-				"S2": {
-					Italic: true
-				},
-				S3: {
-					Align: 'Center'
-				},
-				"S4": {
-					"Align": "Center",
-					"VAlign": "Middle",
-					FontSize: 12,
-					Bold: true,
-					Italic: true,
-					Border: ".2,.2,.2,.2"
-				}
-			},
-			$visible: true
+			}
 		};
 
 		new Vue({
