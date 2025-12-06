@@ -26,7 +26,7 @@ function* enumerateSel(sel) {
 const spreadsheetTemplate = `
 <div class="ss-container" :class="{editable}">
 	<ss-toolbar v-if="editable" />
-	<div class="ss-body" :key=updateCount ref=container tabindex=0 :style=bodyStyle
+	<div class="ss-body" ref=container tabindex=0 :style=bodyStyle :key=updateCount
 		@pointerup=pointerup @pointerdown=pointerdown @pointermove=pointermove
 		@dblclick=dblclick @keydown.self.stop=keydown @wheel.prevent=mousewheel>
 		<ss-canvas />
@@ -35,9 +35,9 @@ const spreadsheetTemplate = `
 		<ss-selection />
 		<ss-edit v-if=editing text=editText />
 	</div>
-	<a2-scroll-bar class="no-me" :horz=true :min="sheet.FixedColumns || 0" :max="sheet.ColumnCount"
+	<a2-scroll-bar class="no-me" :key=updateHScroll :horz=true :min="sheet.FixedColumns || 0" :max="sheet.ColumnCount"
 		:pos="scrollPos.x" :page="hScrollPageSize()"" :setPos=setPosX></a2-scroll-bar>
-	<a2-scroll-bar class="no-me" :horz=false :min="sheet.FixedRows || 0" :max="sheet.RowCount"
+	<a2-scroll-bar class="no-me" :key=updateVScroll :horz=false :min="sheet.FixedRows || 0" :max="sheet.RowCount"
 		:pos="scrollPos.y" :page="vScrollPageSize()" :setPos=setPosY></a2-scroll-bar>
 </div>
 `;
@@ -61,6 +61,8 @@ Vue.component('a2-spreadsheet', {
 	data() {
 		return {
 			updateCount: 0,
+			updateHScroll: 3,
+			updateVScroll: 6,
 			scrollPos: { x: 0, y: 0 },
 			editing: false,
 			selecting: false,
@@ -322,7 +324,6 @@ Vue.component('a2-spreadsheet', {
 				return;
 			ev.target.setPointerCapture(ev.pointerId);
 			this.cancelEdit();
-			this.selecting = true;
 			let sht = this.sheet;
 			let sa = this.selection;
 			let p = this.pointFromEvent(ev);
@@ -331,12 +332,14 @@ Vue.component('a2-spreadsheet', {
 				sa.length = 0;
 				let sp = { left: 0, top: rp.row, right: sht.ColumnCount, bottom: rp.row + 1 };
 				sa.push(sp);
+				this.selecting = true;
 			}
 			else if (p.y < columnHeaderHeigth) {
 				let cp = this.colFromPoint(p.x);
 				sa.length = 0;
 				let sp = { left: cp.col, top: 0, right: cp.col + 1, bottom: sht.RowCount};
 				sa.push(sp);
+				this.selecting = true;
 			}
 			else {
 				let sp = this.createSelRect(p.x, p.y);
@@ -345,6 +348,7 @@ Vue.component('a2-spreadsheet', {
 					sa.push(sp);
 					this.selStart.x = sp.left;
 					this.selStart.y = sp.top;
+					this.selecting = true;
 				}
 			}
 		},
@@ -422,6 +426,8 @@ Vue.component('a2-spreadsheet', {
 			let cp = this.colFromPoint(x);
 			if (cp && rp) {
 				let cellRef = `${toColRef(cp.col)}${rp.row + 1}`;
+				let mc = this.__mergeCells[cellRef];
+				// TODO: calc cp, rp if mc is null
 				let cell = this.sheet.Cells[cellRef];
 				return { left: cp.col, top: rp.row, right: cp.col + 1 + (cell?.ColSpan - 1 || 0), bottom: rp.row + 1 + (cell?.RowSpan - 1 || 0) };
 			}
@@ -514,8 +520,10 @@ Vue.component('a2-spreadsheet', {
 		this.scrollPos.x = this.sheet.FixedColumns || 0;
 		this.scrollPos.y = this.sheet.FixedRows || 0;
 		this.__ro = new ResizeObserver(x => {
-			this.updateCount += 1;
 			this.fitScrollPos();
+			this.updateCount += 1;
+			this.updateHScroll += 1;
+			this.updateVScroll += 1;
 		});
 		this.__ro.observe(this.$el);
 		this.__sp = new StyleProcessor(this.sheet.Styles);
@@ -537,8 +545,8 @@ Vue.component('a2-spreadsheet', {
 			}
 		}
 		// TODO: auto style
-		this.sheet.ColumnCount = Math.max(this.sheet.ColumnCount, 26);
-		this.sheet.RowCount = Math.max(this.sheet.RowCount, 100);
+		this.sheet.ColumnCount = this.sheet.ColumnCount || 26;
+		this.sheet.RowCount = this.sheet.RowCount || 100;
 	},
 	beforeDestroy() {
 		if (this.__ro)
