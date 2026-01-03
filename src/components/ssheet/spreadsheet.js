@@ -498,7 +498,7 @@ Vue.component('a2-spreadsheet', {
 			for (let cr of enumerateSel(sel)) {
 				let cell = this.sheet.Cells[cr];
 				if (!cell) {
-					cell = { Value: val }
+					cell = {};
 					Vue.set(this.sheet.Cells, cr, cell);
 					cell = this.sheet.Cells[cr];
 				}
