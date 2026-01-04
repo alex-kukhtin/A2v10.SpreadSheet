@@ -32,6 +32,12 @@ export function px2Pt(px) {
 	return px * .75; // px * (72 / 96)
 }
 
+export function isObjectEmpty(obj) {
+	return Object.keys(obj).length === 0;
+}
+
+const EMPTY_STYLE = '-:-:-:-:-:-:-';
+
 export class StyleProcessor {
 	constructor(styles) {
 		this.styles = styles;
@@ -57,6 +63,7 @@ export class StyleProcessor {
 		let va = st.VAlign ? st.VAlign[0] : '-';
 		let brd = st.Border || '-';
 		let bg = st.BackgroundColor ? `BG${st.Background}` : '-';
+		// change empty style!
 		return `${b}:${i}:${fs}:${a}:${va}:${brd}:${bg}`;
 	}
 
@@ -148,7 +155,7 @@ export class StyleProcessor {
 		let sobj = Object.assign({}, this.styles[st] || this.defaultStyle());
 		sobj[prop] = val;
 		let shc = this.styleHashCode(sobj);
-		if (shc === '-:-:-:-:-:-')
+		if (shc === EMPTY_STYLE) // check length
 			return undefined;
 		let ns = this.stylesMap[shc];
 		return ns || this.appendNewStyle(sobj, shc);

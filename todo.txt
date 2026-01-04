@@ -7,7 +7,6 @@
 6. Ячеек, которые часть Span быть не должно.
 7. Если начать редактировать, и уйти в другую ячейку (часть Span) - остается видимым редактор.
 10. Formula Bar
-11. Bold: false - не должно сохраняться в style
 12. StartEdit - учет Span
 
 3. Уголки (LT, BR)
@@ -18,11 +17,9 @@
 16. Если выключен header то подсчитать maxPos в Canvas.
 18. Render Cells/Canvas не учитывает :headers
 20. Selection Rectangle - Show First column (a'la Excel)
-21. ResizeSheet - неправильный ThumbSize
 22. FitScroll при увеличении размеров - остается большой кусок справа внизу
 23. FitScrollPos для Key Home/End
 28. Escape - CancelEdit
-29. RowHeight/ColWidth - CancelEdit
 30. Неправильные scrollThumb в конце таблицы.
 31. pointermove - если пересекаем span - включать его. 
 32. computed.spannedCells

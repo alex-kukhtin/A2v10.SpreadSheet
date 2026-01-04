@@ -5,7 +5,7 @@ export default {
 	methods: {
 		blur(ev) {
 			let p = this.$parent;
-			p.endEdit(ev.target.innerText);
+			p.endEdit(ev.target.innerText.trim());
 		}
 	},
 	render(h) {

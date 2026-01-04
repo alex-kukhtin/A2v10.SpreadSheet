@@ -7,7 +7,7 @@ import spreadSheetToolbar from './toolbar';
 
 import {
 	toColRef, fromCellRef, rowHeaderWidth, columnHeaderHeigth, StyleProcessor,
-	pt2Px
+	pt2Px, isObjectEmpty
 } from '../common/utils';
 
 const defaultColumWidth = 54; // 56pt = 72px
@@ -274,15 +274,21 @@ Vue.component('a2-spreadsheet', {
 			this.doEdit(cp, rp);
 		},
 		endEdit(val) {
+			this.cancelEdit();
 			let r = this.editRect;
 			let cellRef = `${toColRef(r.c)}${r.r + 1}`;
 			let cell = this.sheet.Cells[cellRef];
 			if (!cell) {
 				if (!val) return;
-				cell = { Content: val }
+				cell = { Value: val }
 				Vue.set(this.sheet.Cells, cellRef, cell);
 			}
-			Vue.set(cell, 'Value', val);
+			if (val)
+				Vue.set(cell, 'Value', val);
+			else
+				Vue.delete(cell, 'Value');
+			if (isObjectEmpty(cell))
+				Vue.delete(this.sheet.Cells, cellRef);
 		},
 		startEdit(c, r) {
 			return { control: 'editor' };
@@ -502,7 +508,13 @@ Vue.component('a2-spreadsheet', {
 					Vue.set(this.sheet.Cells, cr, cell);
 					cell = this.sheet.Cells[cr];
 				}
-				Vue.set(cell, 'Style', this.__sp.setStyleProp(cell.Style, prop, val));
+				let cellStyle = this.__sp.setStyleProp(cell.Style, prop, val);
+				if (cellStyle)
+					Vue.set(cell, 'Style', cellStyle);
+				else
+					Vue.delete(cell, 'Style');
+				if (isObjectEmpty(cell))
+					Vue.delete(this.sheet.Cells, cr);
 				/*
 				console.dir(cell.Style);
 				this.__sp.findStyle(cell.Style);
